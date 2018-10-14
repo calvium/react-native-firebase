@@ -47,7 +47,12 @@ RCT_ENUM_CONVERTER(NSCalendarUnit,
 
     if([details objectForKey:@"show_in_foreground"] != nil) {
         if([(NSNumber *)details[@"show_in_foreground"] boolValue] == YES) {
-            [content setValue:@YES forKeyPath:@"shouldAlwaysAlertWhileAppIsForeground"];
+            if([content respondsToSelector:NSSelectorFromString(@"shouldAlwaysAlertWhileAppIsForeground")]) {
+                [content setValue:@YES forKeyPath:@"shouldAlwaysAlertWhileAppIsForeground"];
+            }
+            else {
+                NSLog(@"Local Notifications not available in iOS 12");
+            }
         }
     }
     
